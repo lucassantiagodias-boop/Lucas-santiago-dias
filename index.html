@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Santiago Dias | Autobiografia</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0b0f19',
+                            card: '#151c2c',
+                            border: '#232f48',
+                            accent: '#10b981', // Verde Esportivo/Futsal
+                            cyan: '#06b6d4',
+                            gold: '#f59e0b'  // Estilo Card FC Mobile
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Efeito de brilho em cards */
+        .glow-card {
+            transition: all 0.3s ease;
+        }
+        .glow-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25), 0 8px 10px -6px rgba(6, 182, 212, 0.2);
+        }
+
+        /* Card estilo FC Mobile FUT */
+        .fc-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #064e3b 100%);
+            border: 2px solid #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fc-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-emerald-500 text-slate-950 px-5 py-3 rounded-xl shadow-2xl font-bold flex items-center gap-3">
+        <i data-lucide="check-circle-2"></i>
+        <span id="toast-message">Mensagem enviada com sucesso!</span>
+    </div>
+
+    <!-- Navegação Superior -->
+    <header class="sticky top-0 z-40 bg-brand-dark/90 backdrop-blur-md border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo / Nome -->
+            <a href="#inicio" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg group-hover:scale-105 transition-transform">
+                    LS
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg text-white block leading-tight">Lucas Santiago</span>
+                    <span class="text-xs text-emerald-400 font-semibold tracking-wider uppercase">Campineiro do Sul</span>
+                </div>
+            </a>
+
+            <!-- Menu Desktop -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#inicio" class="hover:text-emerald-400 transition-colors">Início</a>
+                <a href="#sobre" class="hover:text-emerald-400 transition-colors">Sobre Mim</a>
+                <a href="#hobbies" class="hover:text-emerald-400 transition-colors">Hobbies & Paixões</a>
+                <a href="#fc-card" class="hover:text-emerald-400 transition-colors">Carta FC Mobile</a>
+                <a href="#estatisticas" class="hover:text-emerald-400 transition-colors">Estatísticas</a>
+                <a href="#contato" class="hover:text-emerald-400 transition-colors">Contato</a>
+            </nav>
+
+            <!-- Botão CTA -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#contato" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-sm transition-all shadow-md shadow-emerald-500/20 flex items-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i> Manda uma Mensagem
+                </a>
+            </div>
+
+            <!-- Botão Menu Mobile -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white" aria-label="Abrir menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Menu Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-card border-b border-brand-border px-6 py-4 space-y-3">
+            <a href="#inicio" class="block text-slate-200 hover:text-emerald-400 py-1">Início</a>
+            <a href="#sobre" class="block text-slate-200 hover:text-emerald-400 py-1">Sobre Mim</a>
+            <a href="#hobbies" class="block text-slate-200 hover:text-emerald-400 py-1">Hobbies & Paixões</a>
+            <a href="#fc-card" class="block text-slate-200 hover:text-emerald-400 py-1">Carta FC Mobile</a>
+            <a href="#estatisticas" class="block text-slate-200 hover:text-emerald-400 py-1">Estatísticas</a>
+            <a href="#contato" class="block text-slate-200 hover:text-emerald-400 py-1">Contato</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="inicio" class="relative py-16 md:py-28 overflow-hidden">
+            <!-- Background Glows -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute top-1/3 right-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Text Side -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wide uppercase">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Bem-vindo ao meu espaço digital
+                        </div>
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none">
+                            Olá, eu sou o <br class="hidden sm:inline"/>
+                            <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+                                Lucas Santiago Dias
+                            </span>
+                        </h1>
+
+                        <p class="text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                            Tenho 16 anos, moro em <span class="text-emerald-400 font-semibold">Campineiro do Sul</span> e sou apaixonado por futsal, jogos online como FC Mobile, pescaria na natureza, viagens para São Paulo e roles de bike com os parceiros.
+                        </p>
+
+                        <!-- Badges Rápidas -->
+                        <div class="flex flex-wrap justify-center lg:justify-start gap-3 pt-2">
+                            <span class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                                <i data-lucide="trophy" class="w-4 h-4 text-emerald-400"></i> Futsal Lover
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                                <i data-lucide="gamepad-2" class="w-4 h-4 text-cyan-400"></i> FC Mobile Gamer
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                                <i data-lucide="fish" class="w-4 h-4 text-blue-400"></i> Pescador
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                                <i data-lucide="bike" class="w-4 h-4 text-amber-400"></i> Ciclista
+                            </span>
+                            <span class="px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-rose-400"></i> SP Trip Explorer
+                            </span>
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                            <a href="#hobbies" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-center transition-all shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2">
+                                Explorer Hobbies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                            <a href="#sobre" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-center transition-all">
+                                Saber Mais Sobre Mim
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Visual Avatar / Card Hero -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-sm">
+                            <!-- Moldura esportiva de perfil -->
+                            <div class="p-1.5 rounded-3xl bg-gradient-to-b from-emerald-400 via-cyan-500 to-slate-800 shadow-2xl">
+                                <div class="bg-brand-card rounded-[22px] p-6 text-center space-y-4">
+                                    
+                                    <!-- Avatar com SVG Stylized -->
+                                    <div class="relative w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-emerald-600 to-cyan-600 flex items-center justify-center border-4 border-slate-900 shadow-inner">
+                                        <i data-lucide="user" class="w-16 h-16 text-white"></i>
+                                        <div class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-emerald-500 border-2 border-slate-900 flex items-center justify-center text-slate-950">
+                                            <i data-lucide="check" class="w-4 h-4 font-black"></i>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white">Lucas Santiago Dias</h3>
+                                        <p class="text-sm text-slate-400">16 Anos • Campineiro do Sul</p>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-2 text-left pt-2 border-t border-slate-800 text-xs">
+                                        <div class="bg-slate-900/60 p-2.5 rounded-xl">
+                                            <span class="text-slate-500 block">Esporte Nº 1</span>
+                                            <span class="text-emerald-400 font-bold">Futsal</span>
+                                        </div>
+                                        <div class="bg-slate-900/60 p-2.5 rounded-xl">
+                                            <span class="text-slate-500 block">Game Favorito</span>
+                                            <span class="text-cyan-400 font-bold">FC Mobile</span>
+                                        </div>
+                                        <div class="bg-slate-900/60 p-2.5 rounded-xl">
+                                            <span class="text-slate-500 block">Destino Favorito</span>
+                                            <span class="text-rose-400 font-bold">São Paulo</span>
+                                        </div>
+                                        <div class="bg-slate-900/60 p-2.5 rounded-xl">
+                                            <span class="text-slate-500 block">Rolê de Fim de Semana</span>
+                                            <span class="text-amber-400 font-bold">Bike & Pesca</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO SOBRE MIM -->
+        <section id="sobre" class="py-16 bg-brand-card/50 border-y border-brand-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl mx-auto text-center space-y-4 mb-12">
+                    <h2 class="text-xs font-bold text-emerald-400 tracking-widest uppercase">Quem Eu Sou</h2>
+                    <p class="text-3xl font-extrabold text-white">Minha História e Estilo de Vida</p>
+                    <div class="w-16 h-1 bg-gradient-to-r from-emerald-500 to-cyan-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Bio Card 1 -->
+                    <div class="bg-brand-card p-6 rounded-2xl border border-brand-border space-y-3">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                            <i data-lucide="home" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Origem & Raízes</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Moro em <strong>Campineiro do Sul</strong>. Aos 16 anos, curto bastante a tranquilidade do meu local, aproveitando os momentos livres para praticar esportes e criar boas memórias com meus amigos.
+                        </p>
+                    </div>
+
+                    <!-- Bio Card 2 -->
+                    <div class="bg-brand-card p-6 rounded-2xl border border-brand-border space-y-3">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Energia & Movimento</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Não fico parado! Seja correndo nas quadras de futsal ou dando um pedal de bicicleta pela cidade com os parceiros, estar ativo e em boa companhia é fundamental para mim.
+                        </p>
+                    </div>
+
+                    <!-- Bio Card 3 -->
+                    <div class="bg-brand-card p-6 rounded-2xl border border-brand-border space-y-3">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                            <i data-lucide="compass" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Novos Horizontes</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Adoro sair da rotina. Viajar para <strong>São Paulo</strong> para visitar minha tia e explorar novos lugares da metrópole traz uma mistura perfeita de afeto familiar e aventura urbana.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO HOBBIES & PAIXÕES -->
+        <section id="hobbies" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold text-emerald-400 tracking-widest uppercase">O Que Eu Amo Fazer</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">Hobbies & Paixões</p>
+                    <p class="text-slate-400 text-sm sm:text-base">
+                        Um resumo do que movimenta meus dias, das quadras aos games e às viagens.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Card 1: Futsal -->
+                    <div class="glow-card bg-brand-card rounded-2xl p-6 border border-brand-border flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                                    <i data-lucide="trophy" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Esporte Favorito</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white">Futsal & Paixão pela Bola</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                O futsal é o meu esporte número um! Adoro a agilidade da quadra, o jogo rápido, as jogadas ensaiadas e a vibração de marcar um gol na partida com a galera.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                            <span>Posição: Atacante / Ala</span>
+                            <span class="text-emerald-400 font-semibold">100% Ritmo</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Games / FC Mobile -->
+                    <div class="glow-card bg-brand-card rounded-2xl p-6 border border-brand-border flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+                                    <i data-lucide="gamepad-2" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Mundo Gamer</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white">FC Mobile & Jogos Online</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Curto bastante jogar online no celular e PC, principalmente <strong>FC Mobile</strong>. Adoro montar times competitivos, testar táticas e disputar partidas ranqueadas.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                            <span>Foco: Ultimate Team</span>
+                            <span class="text-cyan-400 font-semibold">OVR 99+</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Pesca -->
+                    <div class="glow-card bg-brand-card rounded-2xl p-6 border border-brand-border flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                                    <i data-lucide="fish" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-blue-500/10 text-blue-400 border border-blue-500/20">Lazer & Natureza</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white">Pescaria & Desconexão</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Pescar é o momento de desacelerar. Ficar à beira d'água, ter paciência e fisgar um bom peixe é uma das melhores sensações de descanso no fim de semana.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                            <span>Estilo: Pesca de Lazer</span>
+                            <span class="text-blue-400 font-semibold">Paz & Foco</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Viagens para SP -->
+                    <div class="glow-card bg-brand-card rounded-2xl p-6 border border-brand-border flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center">
+                                    <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20">Viagens</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white">Passeios em São Paulo</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Adoro viajar para São Paulo para passar um tempo na casa da minha tia e conhecer lugares novos pela metrópole: pontos turísticos, shoppings e parques.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                            <span>Destino: SP Capital</span>
+                            <span class="text-rose-400 font-semibold">Família & Turismo</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Bike com Amigos -->
+                    <div class="glow-card bg-brand-card rounded-2xl p-6 border border-brand-border flex flex-col justify-between lg:col-span-2">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                                    <i data-lucide="bike" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-bold px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20">Parceria</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white">Rolê de Bicicleta com os Amigos</h3>
+                            <p class="text-sm text-slate-300 leading-relaxed">
+                                Pegar a bike e dar uma volta com o meu amigo é sagrado. É aquele momento de colocar a conversa em dia, dar risada, explorar novas rotas na região de Campineiro do Sul e curtir o ar livre.
+                            </p>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                            <span>Atividade: Pedal em Dupla / Galera</span>
+                            <span class="text-amber-400 font-semibold">Resenha Garantida</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERATIVE SECTION: FC MOBILE CARD SIMULATOR -->
+        <section id="fc-card" class="py-20 bg-brand-card/40 border-y border-brand-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                    <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold border border-amber-500/30">
+                        Especial FC Mobile
+                    </span>
+                    <h2 class="text-3xl font-black text-white">Minha Carta Ultimate Player</h2>
+                    <p class="text-slate-400 text-sm">
+                        Como seria minha carta personalizada no FC Mobile baseada nas minhas habilidades reais?
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Card Visual FC Mobile -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="fc-card w-72 sm:w-80 rounded-3xl p-6 text-center shadow-2xl transition-all duration-300" id="card-container">
+                            
+                            <!-- Top Card Header -->
+                            <div class="flex justify-between items-start">
+                                <div class="text-left">
+                                    <span id="card-ovr" class="text-4xl font-black text-amber-400 leading-none block">99</span>
+                                    <span id="card-pos" class="text-base font-bold text-white tracking-widest">ATA</span>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-400 font-bold text-xs">
+                                    BR
+                                </div>
+                            </div>
+
+                            <!-- Image Avatar -->
+                            <div class="my-4 relative">
+                                <div class="w-28 h-28 mx-auto rounded-full bg-gradient-to-t from-emerald-600 to-slate-800 border-2 border-amber-400/80 flex items-center justify-center">
+                                    <i data-lucide="user-check" class="w-16 h-16 text-white"></i>
+                                </div>
+                            </div>
+
+                            <!-- Name -->
+                            <h4 id="card-name" class="text-xl font-extrabold text-white uppercase tracking-wider mb-1">
+                                L. SANTIAGO
+                            </h4>
+                            <p class="text-xs text-emerald-400 font-semibold mb-4">Campineiro do Sul FC</p>
+
+                            <!-- Stats Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs font-bold border-t border-emerald-500/30 pt-4 text-slate-200">
+                                <div class="flex justify-between px-2 py-1 bg-slate-900/60 rounded">
+                                    <span class="text-slate-400">RIT (Pace)</span>
+                                    <span id="stat-rit" class="text-emerald-400">98</span>
+                                </div>
+                                <div class="flex justify-between px-2 py-1 bg-slate-900/60 rounded">
+                                    <span class="text-slate-400">DRI (Dribble)</span>
+                                    <span id="stat-dri" class="text-emerald-400">96</span>
+                                </div>
+                                <div class="flex justify-between px-2 py-1 bg-slate-900/60 rounded">
+                                    <span class="text-slate-400">FIN (Shoot)</span>
+                                    <span id="stat-fin" class="text-emerald-400">94</span>
+                                </div>
+                                <div class="flex justify-between px-2 py-1 bg-slate-900/60 rounded">
+                                    <span class="text-slate-400">PAS (Pass)</span>
+                                    <span id="stat-pas" class="text-emerald-400">92</span>
+                                </div>
+                                <div class="flex justify-between px-2 py-1 bg-slate-900/60 rounded">
+                                    <span class="text-slate-400">FIS (Physic)</span>
+                                    <span id="stat-fis" class="text-emerald-400">90</span>
+                                </div>
+                                <div class="flex justify-between px-2 py-1 bg-slate-900/60 rounded">
+                                    <span class="text-slate-400">DEF (Defense)</span>
+                                    <span id="stat-def" class="text-emerald-400">75</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Card Interactive Controls -->
+                    <div class="lg:col-span-7 bg-brand-card p-6 sm:p-8 rounded-3xl border border-brand-border space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Personalize Minha Carta</h3>
+                            <p class="text-sm text-slate-400">
+                                Mude as estatísticas para ver o rating do Lucas no FC Mobile!
+                            </p>
+                        </div>
+
+                        <!-- Presets de Estilo de Jogo -->
+                        <div class="space-y-3">
+                            <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Modo de Jogo</label>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="setCardPreset('atacante')" class="px-4 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-semibold text-xs hover:bg-emerald-500/30 transition-all">
+                                    ⚽ Goleador (ATA)
+                                </button>
+                                <button onclick="setCardPreset('armador')" class="px-4 py-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 font-semibold text-xs hover:bg-cyan-500/30 transition-all">
+                                    🎯 Maestro do Futsal (MOC)
+                                </button>
+                                <button onclick="setCardPreset('veloz')" class="px-4 py-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/40 font-semibold text-xs hover:bg-amber-500/30 transition-all">
+                                    ⚡ Velocidade Total (ALA)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Sliders de Atributos -->
+                        <div class="space-y-4 pt-2">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-slate-300">Ritmo / Velocidade</span>
+                                    <span id="val-rit" class="text-emerald-400">98</span>
+                                </div>
+                                <input type="range" id="input-rit" min="70" max="99" value="98" oninput="updateStats()" class="w-full accent-emerald-500 cursor-pointer">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-slate-300">Drible & Controle</span>
+                                    <span id="val-dri" class="text-emerald-400">96</span>
+                                </div>
+                                <input type="range" id="input-dri" min="70" max="99" value="96" oninput="updateStats()" class="w-full accent-emerald-500 cursor-pointer">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-slate-300">Finalização / Chute</span>
+                                    <span id="val-fin" class="text-emerald-400">94</span>
+                                </div>
+                                <input type="range" id="input-fin" min="70" max="99" value="94" oninput="updateStats()" class="w-full accent-emerald-500 cursor-pointer">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO ESTATÍSTICAS DOS HOBBIES -->
+        <section id="estatisticas" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold text-emerald-400 tracking-widest uppercase">Números & Conquistas</h2>
+                    <p class="text-3xl font-black text-white">Estatísticas Pessoais</p>
+                    <p class="text-slate-400 text-sm">Um placar interativo das minhas atividades favoritas.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    
+                    <div class="bg-brand-card p-6 rounded-2xl border border-brand-border space-y-2">
+                        <div class="text-3xl sm:text-4xl font-black text-emerald-400" id="counter-gols">120+</div>
+                        <div class="text-xs text-slate-400 font-medium">Gols Marcados no Futsal</div>
+                    </div>
+
+                    <div class="bg-brand-card p-6 rounded-2xl border border-brand-border space-y-2">
+                        <div class="text-3xl sm:text-4xl font-black text-cyan-400" id="counter-vitorias">350+</div>
+                        <div class="text-xs text-slate-400 font-medium">Partidas Ganhas no FC Mobile</div>
+                    </div>
+
+                    <div class="bg-brand-card p-6 rounded-2xl border border-brand-border space-y-2">
+                        <div class="text-3xl sm:text-4xl font-black text-amber-400" id="counter-km">480 km</div>
+                        <div class="text-xs text-slate-400 font-medium">Pedalados de Bike</div>
+                    </div>
+
+                    <div class="bg-brand-card p-6 rounded-2xl border border-brand-border space-y-2">
+                        <div class="text-3xl sm:text-4xl font-black text-rose-400" id="counter-sp">15+</div>
+                        <div class="text-xs text-slate-400 font-medium">Viagens para São Paulo</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO CONTATO -->
+        <section id="contato" class="py-20 bg-brand-card/40 border-t border-brand-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    
+                    <!-- Info Contato -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div>
+                            <h2 class="text-xs font-bold text-emerald-400 tracking-widest uppercase mb-2">Conecte-se comigo</h2>
+                            <h3 class="text-3xl font-extrabold text-white">Bora trocar uma ideia?</h3>
+                        </div>
+
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Quer marcar uma partida no FC Mobile, jogar um futsal na região de Campineiro do Sul ou trocar ideias sobre viagens e pescaria? Deixe sua mensagem abaixo!
+                        </p>
+
+                        <div class="space-y-4 pt-2">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-500 block">Localização</span>
+                                    <span class="text-sm font-semibold text-white">Campineiro do Sul</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                                    <i data-lucide="gamepad" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-500 block">FC Mobile / E-Sports</span>
+                                    <span class="text-sm font-semibold text-white">Nick: Lucas_Santiago_16</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                                    <i data-lucide="bike" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-slate-500 block">Atividade</span>
+                                    <span class="text-sm font-semibold text-white">Futsal & Pedal no fim de semana</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form de Mensagem -->
+                    <div class="lg:col-span-7 bg-brand-card p-6 sm:p-8 rounded-3xl border border-brand-border">
+                        <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Seu Nome</label>
+                                <input type="text" required placeholder="Digite seu nome" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Assunto / Motivo</label>
+                                <select class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                                    <option value="futsal">Desafio de Futsal</option>
+                                    <option value="fc-mobile">Partida no FC Mobile</option>
+                                    <option value="bike">Rolê de Bike</option>
+                                    <option value="outro">Apenas trocar ideia</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Sua Mensagem</label>
+                                <textarea rows="4" required placeholder="Escreva sua mensagem aqui..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                                <i data-lucide="send" class="w-4 h-4"></i> Enviar Mensagem
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark border-t border-brand-border py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-3">
+            <p class="font-semibold text-slate-400">
+                &copy; 2026 Lucas Santiago Dias • Campineiro do Sul
+            </p>
+            <p class="text-slate-600">
+                Futsal • FC Mobile • Pesca • Viagens SP • Bike com os Amigos
+            </p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Inicializa os ícones do Lucide
+        lucide.createIcons();
+
+        // Menu Mobile Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // FC Mobile Card Simulator Controls
+        function updateStats() {
+            const rit = parseInt(document.getElementById('input-rit').value);
+            const dri = parseInt(document.getElementById('input-dri').value);
+            const fin = parseInt(document.getElementById('input-fin').value);
+
+            document.getElementById('stat-rit').textContent = rit;
+            document.getElementById('stat-dri').textContent = dri;
+            document.getElementById('stat-fin').textContent = fin;
+
+            document.getElementById('val-rit').textContent = rit;
+            document.getElementById('val-dri').textContent = dri;
+            document.getElementById('val-fin').textContent = fin;
+
+            // Calcula OVR aproximado
+            const ovr = Math.round((rit + dri + fin + 92 + 90 + 75) / 6);
+            document.getElementById('card-ovr').textContent = ovr;
+        }
+
+        function setCardPreset(tipo) {
+            if (tipo === 'atacante') {
+                document.getElementById('input-rit').value = 98;
+                document.getElementById('input-dri').value = 95;
+                document.getElementById('input-fin').value = 97;
+                document.getElementById('card-pos').textContent = 'ATA';
+            } else if (tipo === 'armador') {
+                document.getElementById('input-rit').value = 91;
+                document.getElementById('input-dri').value = 98;
+                document.getElementById('input-fin').value = 92;
+                document.getElementById('card-pos').textContent = 'MOC';
+            } else if (tipo === 'veloz') {
+                document.getElementById('input-rit').value = 99;
+                document.getElementById('input-dri').value = 97;
+                document.getElementById('input-fin').value = 90;
+                document.getElementById('card-pos').textContent = 'ALA';
+            }
+            updateStats();
+        }
+
+        // Handle Toast Form Submit
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            event.target.reset();
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
